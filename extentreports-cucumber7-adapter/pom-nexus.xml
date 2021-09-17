@@ -7,7 +7,7 @@
 	<artifactId>extentreports-cucumber7-adapter</artifactId>
 	<version>1.0.0</version>
 	<name>extentreports-cucumber7-adapter</name>
-	<url>https://ghchirp.tech/</url>
+	<url>https://ghchirp.tech/3196</url>
 	<description>Cucumber-JVM 7 adapter for Extent Framework</description>
 
 	<licenses>
@@ -35,9 +35,9 @@
 	</properties>
 
 	<scm>
-		<connection>scm:git:git://github.com/grasshopper7/extentreports-cucumber6-adapter.git</connection>
-		<developerConnection>scm:git:ssh://github.com:grasshopper7/extentreports-cucumber6-adapter.git</developerConnection>
-		<url>https://github.com/grasshopper7/extentreports-cucumber6-adapter</url>
+		<connection>scm:git:git://github.com/grasshopper7/extentreports-cucumber7-adapter.git</connection>
+		<developerConnection>scm:git:ssh://github.com:grasshopper7/extentreports-cucumber7-adapter.git</developerConnection>
+		<url>https://github.com/grasshopper7/extentreports-cucumber7-adapter</url>
 	</scm>
 
 	<dependencies>
