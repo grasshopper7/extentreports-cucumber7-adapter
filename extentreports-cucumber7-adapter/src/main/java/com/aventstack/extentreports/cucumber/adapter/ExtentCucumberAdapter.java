@@ -492,4 +492,8 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 		return stepTestThreadLocal.get();
 	}
 
+	public static ExtentTest getCurrentScenario(){
+		return scenarioThreadLocal.get();
+	}
+
 }
