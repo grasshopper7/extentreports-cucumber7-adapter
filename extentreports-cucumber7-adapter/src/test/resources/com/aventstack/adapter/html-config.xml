@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extentreports>
+	<configuration>
+		<!-- report theme -->
+		<!-- standard, dark -->
+		<theme>dark</theme>
+
+		<!-- document encoding -->
+		<!-- defaults to UTF-8 -->
+		<encoding>UTF-8</encoding>
+
+		<!-- protocol for script and stylesheets -->
+		<!-- defaults to https -->
+		<protocol>https</protocol>
+
+		<!-- title of the document -->
+		<documentTitle>HTML Extent</documentTitle>
+
+		<!-- report name - displayed at top-nav -->
+		<reportName>GhChirp Report</reportName>
+
+		<!-- view report without internet -->
+		<offlineMode>false</offlineMode>
+
+		<!-- settings to change component location -->
+		<testViewChartLocation>top</testViewChartLocation>
+		<chartVisibleOnOpen>true</chartVisibleOnOpen>
+		<enableTimeline>true</enableTimeline>
+		<disableToggleActionForPassedNode>true
+		</disableToggleActionForPassedNode>
+
+		<!-- settings to enable/disable views -->
+		<enableCategoryView>true</enableCategoryView>
+		<enableAuthorView>true</enableAuthorView>
+		<enableExceptionView>true</enableExceptionView>
+		<enableTestRunnerLogsView>true</enableTestRunnerLogsView>
+
+		<!-- custom javascript -->
+		<js></js>
+
+		<!-- custom styles -->
+		<css></css>
+	</configuration>
+</extentreports>

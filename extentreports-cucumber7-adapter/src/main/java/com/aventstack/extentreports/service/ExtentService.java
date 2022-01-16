@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.observer.ExtentObserver;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.ExtentKlovReporter;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.JsonFormatter;
@@ -79,20 +80,25 @@ public class ExtentService implements Serializable {
 		private static final String SPARK = "spark";
 		private static final String JSONF = "json";
 		private static final String PDF = "pdf";
+		private static final String HTML = "html";
 
 		private static final String INIT_KLOV_KEY = EXTENT_REPORTER + DELIM + KLOV + DELIM + START;
 		private static final String INIT_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + START;
 		private static final String INIT_JSONF_KEY = EXTENT_REPORTER + DELIM + JSONF + DELIM + START;
 		private static final String INIT_PDF_KEY = EXTENT_REPORTER + DELIM + PDF + DELIM + START;
+		private static final String INIT_HTML_KEY = EXTENT_REPORTER + DELIM + HTML + DELIM + START;
 
 		private static final String CONFIG_KLOV_KEY = EXTENT_REPORTER + DELIM + KLOV + DELIM + CONFIG;
 		private static final String CONFIG_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + CONFIG;
+		private static final String CONFIG_HTML_KEY = EXTENT_REPORTER + DELIM + HTML + DELIM + CONFIG;
 
 		private static final String OUT_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + OUT;
 		private static final String OUT_JSONF_KEY = EXTENT_REPORTER + DELIM + JSONF + DELIM + OUT;
 		private static final String OUT_PDF_KEY = EXTENT_REPORTER + DELIM + PDF + DELIM + OUT;
+		private static final String OUT_HTML_KEY = EXTENT_REPORTER + DELIM + HTML + DELIM + OUT;
 
 		private static final String VIEW_ORDER_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + VIEW_ORDER;
+		// Use below for both Spark & Html reporters
 		private static final String BASE64_IMAGE_SRC_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM
 				+ BASE64_IMAGE_SRC;
 
@@ -142,6 +148,10 @@ public class ExtentService implements Serializable {
 							&& "true".equals(String.valueOf(properties.get(INIT_PDF_KEY))))
 						initPdf(properties);
 
+					if (properties.containsKey(INIT_HTML_KEY)
+							&& "true".equals(String.valueOf(properties.get(INIT_HTML_KEY))))
+						initHtml(properties);
+
 					addSystemInfo(properties);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -162,6 +172,9 @@ public class ExtentService implements Serializable {
 
 			if ("true".equals(System.getProperty(INIT_PDF_KEY)))
 				initPdf(null);
+
+			if ("true".equals(System.getProperty(INIT_HTML_KEY)))
+				initHtml(null);
 
 			addSystemInfo(System.getProperties());
 		}
@@ -227,8 +240,15 @@ public class ExtentService implements Serializable {
 			String out = getOutputPath(properties, OUT_SPARK_KEY);
 			ExtentSparkReporter spark = new ExtentSparkReporter(out);
 			sparkReportViewOrder(spark);
-			sparkBase64PngImageStyle();
+			base64PngImageStyle();
 			attach(spark, properties, CONFIG_SPARK_KEY);
+		}
+
+		private static void initHtml(Properties properties) {
+			String out = getOutputPath(properties, OUT_HTML_KEY);
+			ExtentHtmlReporter html = new ExtentHtmlReporter(out);
+			base64PngImageStyle();
+			attach(html, properties, CONFIG_HTML_KEY);
 		}
 
 		private static void sparkReportViewOrder(ExtentSparkReporter spark) {
@@ -241,7 +261,7 @@ public class ExtentService implements Serializable {
 			}
 		}
 
-		private static void sparkBase64PngImageStyle() {
+		private static void base64PngImageStyle() {
 			if ("true".equals(String.valueOf(properties.getOrDefault(BASE64_IMAGE_SRC_SPARK_KEY, "false")))) {
 				ENABLE_BASE64_IMAGE_SRC = true;
 			}
