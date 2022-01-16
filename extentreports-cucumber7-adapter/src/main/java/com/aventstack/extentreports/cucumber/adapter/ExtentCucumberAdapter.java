@@ -340,7 +340,8 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 				testCase.getLocation().getLine());
 		Scenario scenarioDefinition = TestSourcesModel.getScenarioDefinition(astNode);
 
-		if (scenarioDefinition.getKeyword().equals("Scenario Outline")) {
+		// if (scenarioDefinition.getKeyword().equals("Scenario Outline")) {
+		if (!scenarioDefinition.getExamples().isEmpty()) {
 			if (currentScenarioOutline.get() == null
 					|| !currentScenarioOutline.get().getName().equals(scenarioDefinition.getName())) {
 				scenarioOutlineThreadLocal.set(null);
@@ -492,7 +493,7 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 		return stepTestThreadLocal.get();
 	}
 
-	public static ExtentTest getCurrentScenario(){
+	public static ExtentTest getCurrentScenario() {
 		return scenarioThreadLocal.get();
 	}
 
