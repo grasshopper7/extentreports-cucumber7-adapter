@@ -2,7 +2,7 @@ This deals with generating **Extent reports for Cucumber-JVM version 7** using t
 
 To **build** from source use ```install -Dmaven.test.failure.ignore=true``` or ```install -Dmaven.test.skip=true```. This ignores intentional test failures from stopping the build.
 
-**Dependency** - To work with the latest [ExtentReports version 5](https://github.com/extent-framework/extentreports-java/wiki), which includes support for latest **Spark, PDF *(New Feature, check 'Extent PDF Reporter' section below)*, Klov and Json** reporters, add the below dependency. The HTML and Logger reporters, among others, have been deprecated. For more details refer to the **POM Dependencies** section of the [article](http://ghchirp.tech/3196/).
+**Dependency** - To work with the latest [ExtentReports version 5](https://github.com/extent-framework/extentreports-java/wiki), which includes support for latest **Spark, PDF *(New Feature, check 'Extent PDF Reporter' section below)*, Ported HTML *(New Feature, check 'HTML Reporter' section)*, Klov and Json** reporters, add the below dependency. The HTML and Logger reporters, among others, have been deprecated. For more details refer to the **POM Dependencies** section of the [article](http://ghchirp.tech/3196/).
 
 ```
 <dependency>
@@ -27,12 +27,21 @@ screenshot.rel.path=../
 ![sample](https://raw.githubusercontent.com/grasshopper7/extentreports-cucumber6-adapter/master/summary.png)
 
 
-The PDF report is needs to be enabled in the extent.properties file.
+The PDF report needs to be enabled in the extent.properties file.
 ```
 extent.reporter.pdf.start=true
 extent.reporter.pdf.out=test output/PdfReport/ExtentPdf.pdf
 ```
 The default color settings can be modified by using a YAML config file, named pdf-config.yaml in the project src/test/resource folder. The detailed documentation for this feature is available in this [article](http://ghchirp.tech/2224/).
+
+
+**Ported HTML Reporter** *(NEW FEATURE)* - The original HTML Extent Reporter was deprecated in 4.1.3 and removed in 5.0.0. The HTML report available in the adapter is based on the same code base and is similar in appearance. The major changes are in the Freemarker template code which have been modified to work with the Extent Reports version 5.
+
+The HTML report needs to be enabled in the extent.properties file.
+```
+extent.reporter.html.start=true
+extent.reporter.html.out=test-output/HtmlReport/ExtentHtml.html
+```
 
 **Customized Report Folder Name** *(NEW FEATURE)* - To enable report folder name with date and\or time details, two settings need to be added to the extent.properties. These are **basefolder.name** and **basefolder.datetimepattern**. These will be merged to create the base folder name, inside which the reports will be generated. The basefolder.datetimepattern value should be a **valid date time formatter pattern**. For more details refer to the **Customized Report Folder Name** section of the [article](http://ghchirp.tech/3196/).
 
