@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+# 1.3.0 (2022-03-06)
+
+* Updated pdf report data collector version to 2.1.0
+
 # 1.2.0 (2022-01-16)
 
 * Add HTMLExtentReporter to adapter [Issue 4](https://github.com/grasshopper7/extentreports-cucumber7-adapter/issues/4)
