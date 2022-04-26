@@ -5,7 +5,7 @@
 
 	<groupId>tech.grasshopper</groupId>
 	<artifactId>extentreports-cucumber7-adapter</artifactId>
-	<version>1.4.0</version>
+	<version>1.4.1</version>
 	<name>extentreports-cucumber7-adapter</name>
 	<url>https://ghchirp.tech/3196</url>
 	<description>Cucumber-JVM 7 adapter for Extent Framework</description>
@@ -66,7 +66,7 @@
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-java</artifactId>
 			<version>${cucumber.version}</version>
-			<scope>provided</scope>
+			<!-- <scope>provided</scope> -->
 		</dependency>
 		<dependency>
 			<groupId>io.cucumber</groupId>
@@ -130,6 +130,38 @@
 				<version>3.2.0</version>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.3.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<minimizeJar>true</minimizeJar>
+							<artifactSet>
+								<includes>
+									<include>io.cucumber:cucumber-gherkin-messages</include>
+									<include>io.cucumber:messages</include>
+								</includes>
+							</artifactSet>
+							<relocations>
+								<relocation>
+									<pattern>io.cucumber.core.gherkin.messages</pattern>
+									<shadedPattern>io.cucumber.shaded.gherkin.messages</shadedPattern>
+								</relocation>
+								<relocation>
+									<pattern>io.cucumber.messages</pattern>
+									<shadedPattern>io.cucumber.shaded.messages</shadedPattern>
+								</relocation>
+							</relocations>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
 				<version>1.6.8</version>
@@ -180,38 +212,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.3.0</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<minimizeJar>true</minimizeJar>
-							<artifactSet>
-								<includes>
-									<include>io.cucumber:cucumber-gherkin-messages</include>
-									<include>io.cucumber:messages</include>
-								</includes>
-							</artifactSet>
-							<relocations>
-								<relocation>
-									<pattern>io.cucumber.core.gherkin.messages</pattern>
-									<shadedPattern>io.cucumber.shaded.gherkin.messages</shadedPattern>
-								</relocation>
-								<relocation>
-									<pattern>io.cucumber.messages</pattern>
-									<shadedPattern>io.cucumber.shaded.messages</shadedPattern>
-								</relocation>
-							</relocations>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+
 		</plugins>
 	</build>
 

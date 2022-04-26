@@ -1,7 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-# 1.4.0 (2022-04-23)
+# 1.4.1 (2022-04-26)
+
+* Fixed error in pom deployment
+
+# 1.4.0 (2022-04-26)
 
 * Compatibilty changes for cucumber 7.3.x jars
 
