@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+# 1.4.2 (2022-04-28)
+
+* Updated pdf report data collector version to 2.4.1
+
 # 1.4.1 (2022-04-26)
 
 * Fixed error in pom deployment
