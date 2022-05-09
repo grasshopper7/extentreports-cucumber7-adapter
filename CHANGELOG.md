@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+# 1.5.0 (2022-05-09)
+
+* Updated pdf report data collector version to 2.5.0
+
 # 1.4.2 (2022-04-28)
 
 * Updated pdf report data collector version to 2.4.1
@@ -11,7 +15,7 @@ All notable changes to this project will be documented in this file.
 
 # 1.4.0 (2022-04-26)
 
-* Compatibilty changes for cucumber 7.3.x jars
+* Compatibility changes for cucumber 7.3.x jars
 
 # 1.3.3 (2022-04-23)
 
