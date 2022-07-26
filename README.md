@@ -1,4 +1,4 @@
-This deals with generating **Extent reports for Cucumber-JVM version 7** using the ExtentReports Cucumber **Adapter Plugin**. For more details refer to this [article](http://ghchirp.tech/3196/). A sample usage of this adapter can be found [here](https://github.com/grasshopper7/cuke7-extent-adapter-report).
+This deals with generating **Extent reports for Cucumber-JVM version 7** using the ExtentReports Cucumber **Adapter Plugin**. For more details refer to this [article](http://ghchirp.online/3196/). A sample usage of this adapter can be found [here](https://github.com/grasshopper7/cuke7-extent-adapter-report).
 
 To **build** from source use ```install -Dmaven.test.failure.ignore=true``` or ```install -Dmaven.test.skip=true```. This ignores intentional test failures from stopping the build.
 
