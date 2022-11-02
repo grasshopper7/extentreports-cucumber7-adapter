@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+# 1.7.1 (2022-11-02)
+
+* Fixed tag count & test display for scenario outline [Issue 4](https://github.com/grasshopper7/extentreports-cucumber7-adapter/issues/5)
+
 # 1.7.0 (2022-6-11)
 
 * Updated pdf report data collector version to 2.7.0

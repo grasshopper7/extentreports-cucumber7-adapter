@@ -8,7 +8,7 @@ To **build** from source use ```install -Dmaven.test.failure.ignore=true``` or `
 <dependency>
     <groupId>tech.grasshopper</groupId>
     <artifactId>extentreports-cucumber7-adapter</artifactId>
-    <version>1.7.0</version>
+    <version>1.7.1</version>
 </dependency>
 ```
 

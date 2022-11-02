@@ -372,11 +372,13 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 			scenarioOutlineThreadLocal.set(t);
 			scenarioOutlineMap.put(scenarioOutline.getName(), t);
 
-			if (featureTagsThreadLocal.get() != null) {
-				featureTagsThreadLocal.get().forEach(x -> t.assignCategory(x));
-			}
-			scenarioOutline.getTags().stream().map(tag -> tag.getName()).forEach(c -> t.assignCategory(c));
-
+			/*
+			 * if (featureTagsThreadLocal.get() != null) {
+			 * featureTagsThreadLocal.get().forEach(x -> t.assignCategory(x)); }
+			 * 
+			 * scenarioOutline.getTags().stream().map(tag -> tag.getName()).forEach(c ->
+			 * t.assignCategory(c));
+			 */
 			Set<String> tagList = scenarioOutline.getTags().stream().map(tag -> tag.getName())
 					.collect(Collectors.toSet());
 			scenarioOutlineTagsThreadLocal.set(tagList);
