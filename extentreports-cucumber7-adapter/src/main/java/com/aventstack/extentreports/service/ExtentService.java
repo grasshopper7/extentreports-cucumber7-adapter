@@ -55,6 +55,22 @@ public class ExtentService implements Serializable {
 		return ExtentReportsLoader.ENABLE_BASE64_IMAGE_SRC;
 	}
 
+	public static boolean isDeviceEnabled() {
+		return ExtentReportsLoader.IS_DEVICE_ENABLED;
+	}
+
+	public static boolean isAuthorEnabled() {
+		return ExtentReportsLoader.IS_AUTHOR_ENABLED;
+	}
+
+	public static String getDevicePrefix() {
+		return ExtentReportsLoader.DEVICE_NAME_PREFIX;
+	}
+
+	public static String getAuthorPrefix() {
+		return ExtentReportsLoader.AUTHOR_NAME_PREFIX;
+	}
+
 	@SuppressWarnings("unused")
 	private ExtentReports readResolve() {
 		return ExtentReportsLoader.INSTANCE;
@@ -74,6 +90,10 @@ public class ExtentService implements Serializable {
 		private static final String OUT = "out";
 		private static final String VIEW_ORDER = "vieworder";
 		private static final String BASE64_IMAGE_SRC = "base64imagesrc";
+		private static final String ENABLE_DEVICE = "enable.device";
+		private static final String ENABLE_AUTHOR = "enable.author";
+		private static final String PREFIX_DEVICE = "prefix.device";
+		private static final String PREFIX_AUTHOR = "prefix.author";
 		private static final String DELIM = ".";
 
 		private static final String KLOV = "klov";
@@ -102,6 +122,11 @@ public class ExtentService implements Serializable {
 		private static final String BASE64_IMAGE_SRC_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM
 				+ BASE64_IMAGE_SRC;
 
+		private static final String DEVICE_ENABLE_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + ENABLE_DEVICE;
+		private static final String AUTHOR_ENABLE_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + ENABLE_AUTHOR;
+		private static final String DEVICE_PREFIX_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + PREFIX_DEVICE;
+		private static final String AUTHOR_PREFIX_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + PREFIX_AUTHOR;
+
 		private static boolean ENABLE_BASE64_IMAGE_SRC = false;
 
 		private static String SCREENSHOT_FOLDER_NAME;
@@ -111,14 +136,23 @@ public class ExtentService implements Serializable {
 		private static final String SCREENSHOT_DIR_PROPERTY = "screenshot.dir";
 		private static final String SCREENSHOT_REL_PATH_PROPERTY = "screenshot.rel.path";
 
-		public static final String REPORTS_BASEFOLDER_NAME = "basefolder.name";
-		public static final String REPORTS_BASEFOLDER_DATETIMEPATTERN = "basefolder.datetimepattern";
+		private static final String REPORTS_BASEFOLDER_NAME = "basefolder.name";
+		private static final String REPORTS_BASEFOLDER_DATETIMEPATTERN = "basefolder.datetimepattern";
 		private static final LocalDateTime FOLDER_CURRENT_TIMESTAMP = LocalDateTime.now();
+
+		private static boolean IS_DEVICE_ENABLED = false;
+		private static boolean IS_AUTHOR_ENABLED = false;
+		private static String DEVICE_NAME_PREFIX;
+		private static String AUTHOR_NAME_PREFIX;
+
+		private static final String DEFAULT_DEVICE_PREFIX = "@dev_";
+		private static final String DEFAULT_AUTHOR_PREFIX = "@aut_";
 
 		static {
 			createViaProperties();
 			createViaSystem();
 			configureScreenshotProperties();
+			configureDeviceAndAuthorProperties();
 		}
 
 		private static void createViaProperties() {
@@ -213,6 +247,27 @@ public class ExtentService implements Serializable {
 			SCREENSHOT_FOLDER_REPORT_RELATIVE_PATH = property == null || String.valueOf(property).isEmpty()
 					? SCREENSHOT_FOLDER_NAME
 					: String.valueOf(property);
+		}
+
+		private static void configureDeviceAndAuthorProperties() {
+			if ("true".equals(String.valueOf(properties.getOrDefault(DEVICE_ENABLE_SPARK_KEY, "false"))))
+				IS_DEVICE_ENABLED = true;
+			if ("true".equals(String.valueOf(properties.getOrDefault(AUTHOR_ENABLE_SPARK_KEY, "false"))))
+				IS_AUTHOR_ENABLED = true;
+
+			if (IS_DEVICE_ENABLED) {
+				String property = String
+						.valueOf(properties.getOrDefault(DEVICE_PREFIX_SPARK_KEY, DEFAULT_DEVICE_PREFIX));
+				if (!property.isEmpty())
+					DEVICE_NAME_PREFIX = property;
+			}
+
+			if (IS_AUTHOR_ENABLED) {
+				String property = String
+						.valueOf(properties.getOrDefault(AUTHOR_PREFIX_SPARK_KEY, DEFAULT_AUTHOR_PREFIX));
+				if (!property.isEmpty())
+					AUTHOR_NAME_PREFIX = property;
+			}
 		}
 
 		private static void initKlov(Properties properties) {
