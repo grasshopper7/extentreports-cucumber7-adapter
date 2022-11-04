@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 # 1.8.0 (2022-11-04)
 
 * Add device and author information as tags [Issue 12](https://github.com/grasshopper7/extentreports-cucumber7-adapter/issues/12)
+* Base folder report name custom delimiter setting [Issue 13](https://github.com/grasshopper7/extentreports-cucumber7-adapter/issues/13)
 
 # 1.7.1 (2022-11-02)
 

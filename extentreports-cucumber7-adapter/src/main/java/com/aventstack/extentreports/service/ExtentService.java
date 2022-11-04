@@ -43,6 +43,11 @@ public class ExtentService implements Serializable {
 		return sys == null ? (properties == null ? null : properties.get(key)) : sys;
 	}
 
+	public static Object getPropertyOrDefault(String key, Object defaultValue) {
+		Object value = getProperty(key);
+		return value == null ? defaultValue : value;
+	}
+
 	public static String getScreenshotFolderName() {
 		return ExtentReportsLoader.SCREENSHOT_FOLDER_NAME;
 	}
@@ -136,8 +141,12 @@ public class ExtentService implements Serializable {
 		private static final String SCREENSHOT_DIR_PROPERTY = "screenshot.dir";
 		private static final String SCREENSHOT_REL_PATH_PROPERTY = "screenshot.rel.path";
 
-		private static final String REPORTS_BASEFOLDER_NAME = "basefolder.name";
-		private static final String REPORTS_BASEFOLDER_DATETIMEPATTERN = "basefolder.datetimepattern";
+		private static final String REPORTS_BASEFOLDER = "basefolder";
+		private static final String REPORTS_BASEFOLDER_NAME = REPORTS_BASEFOLDER + DELIM + "name";
+		private static final String REPORTS_BASEFOLDER_DATETIMEPATTERN = REPORTS_BASEFOLDER + DELIM + "datetimepattern";
+		private static final String REPORTS_BASEFOLDER_ENABLEDELIMITER = REPORTS_BASEFOLDER + DELIM
+				+ "enable.delimiter";
+		private static final String REPORTS_BASEFOLDER_DELIMITER = REPORTS_BASEFOLDER + DELIM + "delimiter";
 		private static final LocalDateTime FOLDER_CURRENT_TIMESTAMP = LocalDateTime.now();
 
 		private static boolean IS_DEVICE_ENABLED = false;
@@ -217,11 +226,16 @@ public class ExtentService implements Serializable {
 			String folderpattern = "";
 			Object baseFolderPrefix = getProperty(REPORTS_BASEFOLDER_NAME);
 			Object baseFolderPatternSuffix = getProperty(REPORTS_BASEFOLDER_DATETIMEPATTERN);
+			String enableDelimiter = String.valueOf(getPropertyOrDefault(REPORTS_BASEFOLDER_ENABLEDELIMITER, "true"));
+			String delimiter = String.valueOf(getPropertyOrDefault(REPORTS_BASEFOLDER_DELIMITER, " "));
+
+			if (enableDelimiter.equalsIgnoreCase("false"))
+				delimiter = "";
 
 			if (baseFolderPrefix != null && !String.valueOf(baseFolderPrefix).isEmpty()
 					&& baseFolderPatternSuffix != null && !String.valueOf(baseFolderPatternSuffix).isEmpty()) {
 				DateTimeFormatter folderSuffix = DateTimeFormatter.ofPattern(String.valueOf(baseFolderPatternSuffix));
-				folderpattern = baseFolderPrefix + " " + folderSuffix.format(FOLDER_CURRENT_TIMESTAMP) + "/";
+				folderpattern = baseFolderPrefix + delimiter + folderSuffix.format(FOLDER_CURRENT_TIMESTAMP) + "/";
 			}
 			return folderpattern;
 		}
@@ -250,21 +264,19 @@ public class ExtentService implements Serializable {
 		}
 
 		private static void configureDeviceAndAuthorProperties() {
-			if ("true".equals(String.valueOf(properties.getOrDefault(DEVICE_ENABLE_SPARK_KEY, "false"))))
+			if ("true".equals(String.valueOf(getPropertyOrDefault(DEVICE_ENABLE_SPARK_KEY, "false"))))
 				IS_DEVICE_ENABLED = true;
-			if ("true".equals(String.valueOf(properties.getOrDefault(AUTHOR_ENABLE_SPARK_KEY, "false"))))
+			if ("true".equals(String.valueOf(getPropertyOrDefault(AUTHOR_ENABLE_SPARK_KEY, "false"))))
 				IS_AUTHOR_ENABLED = true;
 
 			if (IS_DEVICE_ENABLED) {
-				String property = String
-						.valueOf(properties.getOrDefault(DEVICE_PREFIX_SPARK_KEY, DEFAULT_DEVICE_PREFIX));
+				String property = String.valueOf(getPropertyOrDefault(DEVICE_PREFIX_SPARK_KEY, DEFAULT_DEVICE_PREFIX));
 				if (!property.isEmpty())
 					DEVICE_NAME_PREFIX = property;
 			}
 
 			if (IS_AUTHOR_ENABLED) {
-				String property = String
-						.valueOf(properties.getOrDefault(AUTHOR_PREFIX_SPARK_KEY, DEFAULT_AUTHOR_PREFIX));
+				String property = String.valueOf(getPropertyOrDefault(AUTHOR_PREFIX_SPARK_KEY, DEFAULT_AUTHOR_PREFIX));
 				if (!property.isEmpty())
 					AUTHOR_NAME_PREFIX = property;
 			}
@@ -317,7 +329,7 @@ public class ExtentService implements Serializable {
 		}
 
 		private static void base64PngImageStyle() {
-			if ("true".equals(String.valueOf(properties.getOrDefault(BASE64_IMAGE_SRC_SPARK_KEY, "false")))) {
+			if ("true".equals(String.valueOf(getPropertyOrDefault(BASE64_IMAGE_SRC_SPARK_KEY, "false")))) {
 				ENABLE_BASE64_IMAGE_SRC = true;
 			}
 		}
