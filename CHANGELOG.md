@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+# 1.8.1 (2022-11-07)
+
+* Updated pdf report data collector version to 2.8.0
+
 # 1.8.0 (2022-11-04)
 
 * Add device and author information as tags [Issue 12](https://github.com/grasshopper7/extentreports-cucumber7-adapter/issues/12)
