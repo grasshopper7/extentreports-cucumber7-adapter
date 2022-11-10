@@ -5,7 +5,7 @@
 
 	<groupId>tech.grasshopper</groupId>
 	<artifactId>extentreports-cucumber7-adapter</artifactId>
-	<version>1.8.2</version>
+	<version>1.8.3</version>
 	<name>extentreports-cucumber7-adapter</name>
 	<url>https://ghchirp.online/3196</url>
 	<description>Cucumber-JVM 7 adapter for Extent Framework</description>
@@ -22,7 +22,7 @@
 			<name>Grass Hopper</name>
 			<email>grass.hopper.moc@gmail.com</email>
 			<organization>Grasshopper</organization>
-			<organizationUrl>http://ghchirp.tech/</organizationUrl>
+			<organizationUrl>http://ghchirp.online/</organizationUrl>
 		</developer>
 	</developers>
 
