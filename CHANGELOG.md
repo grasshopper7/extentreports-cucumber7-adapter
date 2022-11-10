@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+# 1.8.3 (2022-11-10)
+
+* Fixed bug for status filter for Spark [Issue 15](https://github.com/grasshopper7/extentreports-cucumber7-adapter/issues/15)
+
 # 1.8.2 (2022-11-10)
 
 * Add support for status filter for Spark report [Issue 15](https://github.com/grasshopper7/extentreports-cucumber7-adapter/issues/15)

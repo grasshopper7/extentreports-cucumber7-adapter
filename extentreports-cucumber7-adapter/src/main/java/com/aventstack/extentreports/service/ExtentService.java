@@ -328,7 +328,7 @@ public class ExtentService implements Serializable {
 					return;
 
 				List<Status> statuses = Arrays.stream(String.valueOf(getProperty(STATUS_FILTER_SPARK_KEY)).split(","))
-						.map(s -> Status.valueOf(s)).collect(Collectors.toList());
+						.map(s -> convertToStatus(s)).collect(Collectors.toList());
 				spark.filter().statusFilter().as(statuses);
 			} catch (Exception e) {
 				// Do nothing. Uses no filter.
@@ -388,6 +388,25 @@ public class ExtentService implements Serializable {
 					INSTANCE.setSystemInfo(key, String.valueOf(v));
 				}
 			});
+		}
+
+		private static Status convertToStatus(String status) {
+			String lowerStatus = status.toLowerCase();
+
+			switch (lowerStatus) {
+			case "info":
+				return Status.INFO;
+			case "pass":
+				return Status.PASS;
+			case "Warning":
+				return Status.WARNING;
+			case "skip":
+				return Status.SKIP;
+			case "fail":
+				return Status.FAIL;
+			default:
+				throw new IllegalArgumentException();
+			}
 		}
 	}
 }
