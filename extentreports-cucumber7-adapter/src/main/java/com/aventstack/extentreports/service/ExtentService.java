@@ -22,6 +22,7 @@ import com.aventstack.extentreports.reporter.ExtentKlovReporter;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.JsonFormatter;
 import com.aventstack.extentreports.reporter.ReporterConfigurable;
+import com.aventstack.extentreports.reporter.ReporterFilterable;
 import com.aventstack.extentreports.reporter.configuration.ViewName;
 
 import tech.grasshopper.pdf.extent.ExtentPDFCucumberReporter;
@@ -125,7 +126,6 @@ public class ExtentService implements Serializable {
 		private static final String OUT_HTML_KEY = EXTENT_REPORTER + DELIM + HTML + DELIM + OUT;
 
 		private static final String VIEW_ORDER_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + VIEW_ORDER;
-		private static final String STATUS_FILTER_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + STATUS_FILTER;
 		// Use below for both Spark & Html reporters
 		private static final String BASE64_IMAGE_SRC_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM
 				+ BASE64_IMAGE_SRC;
@@ -136,6 +136,8 @@ public class ExtentService implements Serializable {
 		private static final String AUTHOR_PREFIX_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + PREFIX_AUTHOR;
 
 		private static boolean ENABLE_BASE64_IMAGE_SRC = false;
+
+		private static final String STATUS_FILTER_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + STATUS_FILTER;
 
 		private static String SCREENSHOT_FOLDER_NAME;
 		private static String SCREENSHOT_FOLDER_REPORT_RELATIVE_PATH;
@@ -310,7 +312,7 @@ public class ExtentService implements Serializable {
 			String out = getOutputPath(properties, OUT_SPARK_KEY);
 			ExtentSparkReporter spark = new ExtentSparkReporter(out);
 			sparkReportViewOrder(spark);
-			sparkReportStatusFilter(spark);
+			filterReportStatus(spark);
 			base64PngImageStyle();
 			attach(spark, properties, CONFIG_SPARK_KEY);
 		}
@@ -322,14 +324,14 @@ public class ExtentService implements Serializable {
 			attach(html, properties, CONFIG_HTML_KEY);
 		}
 
-		private static void sparkReportStatusFilter(ExtentSparkReporter spark) {
+		private static void filterReportStatus(ReporterFilterable<?> reporter) {
 			try {
-				if (getProperty(STATUS_FILTER_SPARK_KEY) == null)
+				if (getProperty(STATUS_FILTER_KEY) == null)
 					return;
 
-				List<Status> statuses = Arrays.stream(String.valueOf(getProperty(STATUS_FILTER_SPARK_KEY)).split(","))
+				List<Status> statuses = Arrays.stream(String.valueOf(getProperty(STATUS_FILTER_KEY)).split(","))
 						.map(s -> convertToStatus(s)).collect(Collectors.toList());
-				spark.filter().statusFilter().as(statuses);
+				reporter.filter().statusFilter().as(statuses);
 			} catch (Exception e) {
 				// Do nothing. Uses no filter.
 			}
@@ -366,6 +368,7 @@ public class ExtentService implements Serializable {
 			MediaCleanupOption mediaCleanup = MediaCleanupOption.builder().cleanUpType(CleanupType.PATTERN)
 					.pattern(MediaProcessor.EMBEDDED_PREFIX + ".*").build();
 			ExtentPDFCucumberReporter pdf = new ExtentPDFCucumberReporter(out, SCREENSHOT_FOLDER_NAME, mediaCleanup);
+			filterReportStatus(pdf);
 			INSTANCE.attachReporter(pdf);
 		}
 
