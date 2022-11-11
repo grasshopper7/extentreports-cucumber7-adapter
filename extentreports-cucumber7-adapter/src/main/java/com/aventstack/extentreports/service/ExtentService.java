@@ -137,7 +137,8 @@ public class ExtentService implements Serializable {
 
 		private static boolean ENABLE_BASE64_IMAGE_SRC = false;
 
-		private static final String STATUS_FILTER_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + STATUS_FILTER;
+		// Use below for both Spark & Pdf reporters
+		private static final String STATUS_FILTER_KEY = EXTENT_REPORTER + DELIM + STATUS_FILTER;
 
 		private static String SCREENSHOT_FOLDER_NAME;
 		private static String SCREENSHOT_FOLDER_REPORT_RELATIVE_PATH;
