@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+# 1.9.0 (2022-11-13)
+
+* Updated jackson dependency version
+
 # 1.8.4 (2022-11-11)
 
 * Add support for status filter for PDF report [Issue 16](https://github.com/grasshopper7/extentreports-cucumber7-adapter/issues/16)
