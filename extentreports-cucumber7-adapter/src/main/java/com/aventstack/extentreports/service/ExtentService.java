@@ -321,6 +321,7 @@ public class ExtentService implements Serializable {
 		private static void initHtml(Properties properties) {
 			String out = getOutputPath(properties, OUT_HTML_KEY);
 			ExtentHtmlReporter html = new ExtentHtmlReporter(out);
+			filterReportStatus(html);
 			base64PngImageStyle();
 			attach(html, properties, CONFIG_HTML_KEY);
 		}
