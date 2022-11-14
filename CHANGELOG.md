@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+# 1.9.1 (2022-11-14)
+
+* Add support for status filter for html report
+* Updated pdf report data collector version to 2.9.1
+
 # 1.9.0 (2022-11-13)
 
 * Updated jackson dependency version

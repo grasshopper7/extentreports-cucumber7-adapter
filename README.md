@@ -2,17 +2,17 @@ This deals with generating **Extent reports for Cucumber-JVM version 7** using t
 
 To **build** from source use ```install -Dmaven.test.failure.ignore=true``` or ```install -Dmaven.test.skip=true```. This ignores intentional test failures from stopping the build.
 
-**Dependency** - To work with the latest [ExtentReports version 5](https://github.com/extent-framework/extentreports-java/wiki), which includes support for latest **Spark, PDF *(New Feature, check 'Extent PDF Reporter' section below)*, Ported HTML *(New Feature, check 'HTML Reporter' section)*, Klov and Json** reporters, add the below dependency. The HTML and Logger reporters, among others, have been deprecated. For more details refer to the **POM Dependencies** section of the [article](http://ghchirp.tech/3196/).
+**Dependency** - To work with the latest [ExtentReports version 5](https://github.com/extent-framework/extentreports-java/wiki), which includes support for latest **Spark, PDF *(New Feature, check 'Extent PDF Reporter' section below)*, Ported HTML *(New Feature, check 'HTML Reporter' section)*, Klov and Json** reporters, add the below dependency. The HTML and Logger reporters, among others, have been deprecated. For more details refer to the **POM Dependencies** section of the [article](http://ghchirp.online/3196/).
 
 ```
 <dependency>
     <groupId>tech.grasshopper</groupId>
     <artifactId>extentreports-cucumber7-adapter</artifactId>
-    <version>1.9.0</version>
+    <version>1.9.1</version>
 </dependency>
 ```
 
-**Report Attachments** - To add attachments, like screen images, two settings need to be added to the extent.properties. First property, named **screenshot.dir**, is the directory where the attachments are stored. Second is **screenshot.rel.path**, which is the relative path from the report file to the screenshot directory. For more details refer to the **Report Attachments** section of the [article](http://ghchirp.tech/3196/).
+**Report Attachments** - To add attachments, like screen images, two settings need to be added to the extent.properties. First property, named **screenshot.dir**, is the directory where the attachments are stored. Second is **screenshot.rel.path**, which is the relative path from the report file to the screenshot directory. For more details refer to the **Report Attachments** section of the [article](http://ghchirp.online/3196/).
 
 ```
 extent.reporter.spark.out=test-output/SparkReport/Spark.html

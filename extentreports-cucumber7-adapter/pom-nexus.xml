@@ -5,7 +5,7 @@
 
 	<groupId>tech.grasshopper</groupId>
 	<artifactId>extentreports-cucumber7-adapter</artifactId>
-	<version>1.9.0</version>
+	<version>1.9.1</version>
 	<name>extentreports-cucumber7-adapter</name>
 	<url>https://ghchirp.online/3196</url>
 	<description>Cucumber-JVM 7 adapter for Extent Framework</description>
@@ -31,7 +31,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<cucumber.version>7.2.3</cucumber.version>
 		<extent.version>5.0.9</extent.version>
-		<pdfreporter.version>2.9.0</pdfreporter.version>
+		<pdfreporter.version>2.9.1</pdfreporter.version>
 		<htmlreporter.version>1.0.1</htmlreporter.version>
 	</properties>
 
