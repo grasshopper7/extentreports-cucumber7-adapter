@@ -5,7 +5,7 @@
 
 	<groupId>tech.grasshopper</groupId>
 	<artifactId>extentreports-cucumber7-adapter</artifactId>
-	<version>1.9.1</version>
+	<version>1.9.2</version>
 	<name>extentreports-cucumber7-adapter</name>
 	<url>https://ghchirp.online/3196</url>
 	<description>Cucumber-JVM 7 adapter for Extent Framework</description>
@@ -130,6 +130,14 @@
 									<include>io.cucumber:messages</include>
 								</includes>
 							</artifactSet>
+							<filters>
+								<filter>
+									<artifact>io.cucumber:messages</artifact>
+									<excludes>
+										<exclude>META-INF/maven/com.fasterxml.jackson.core/**</exclude>
+									</excludes>
+								</filter>
+							</filters>
 							<relocations>
 								<relocation>
 									<pattern>io.cucumber.core.gherkin.messages</pattern>

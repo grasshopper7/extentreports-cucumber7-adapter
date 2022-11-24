@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+# 1.9.2 (2022-11-23)
+
+* Removed reference to Jackson dependecy from maven shade plugin [Issue 18](https://github.com/grasshopper7/extentreports-cucumber7-adapter/issues/18)
+
 # 1.9.1 (2022-11-14)
 
 * Add support for status filter for html report
