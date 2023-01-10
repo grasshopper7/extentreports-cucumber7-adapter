@@ -29,6 +29,7 @@ import tech.grasshopper.pdf.extent.ExtentPDFCucumberReporter;
 import tech.grasshopper.pdf.extent.processor.MediaProcessor;
 import tech.grasshopper.pdf.section.details.executable.MediaCleanup.CleanupType;
 import tech.grasshopper.pdf.section.details.executable.MediaCleanup.MediaCleanupOption;
+import tech.grasshopper.reporter.ExtentExcelCucumberReporter;
 
 public class ExtentService implements Serializable {
 
@@ -109,12 +110,14 @@ public class ExtentService implements Serializable {
 		private static final String JSONF = "json";
 		private static final String PDF = "pdf";
 		private static final String HTML = "html";
+		private static final String EXCEL = "excel";
 
 		private static final String INIT_KLOV_KEY = EXTENT_REPORTER + DELIM + KLOV + DELIM + START;
 		private static final String INIT_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + START;
 		private static final String INIT_JSONF_KEY = EXTENT_REPORTER + DELIM + JSONF + DELIM + START;
 		private static final String INIT_PDF_KEY = EXTENT_REPORTER + DELIM + PDF + DELIM + START;
 		private static final String INIT_HTML_KEY = EXTENT_REPORTER + DELIM + HTML + DELIM + START;
+		private static final String INIT_EXCEL_KEY = EXTENT_REPORTER + DELIM + EXCEL + DELIM + START;
 
 		private static final String CONFIG_KLOV_KEY = EXTENT_REPORTER + DELIM + KLOV + DELIM + CONFIG;
 		private static final String CONFIG_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + CONFIG;
@@ -124,6 +127,7 @@ public class ExtentService implements Serializable {
 		private static final String OUT_JSONF_KEY = EXTENT_REPORTER + DELIM + JSONF + DELIM + OUT;
 		private static final String OUT_PDF_KEY = EXTENT_REPORTER + DELIM + PDF + DELIM + OUT;
 		private static final String OUT_HTML_KEY = EXTENT_REPORTER + DELIM + HTML + DELIM + OUT;
+		private static final String OUT_EXCEL_KEY = EXTENT_REPORTER + DELIM + EXCEL + DELIM + OUT;
 
 		private static final String VIEW_ORDER_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + VIEW_ORDER;
 		// Use below for both Spark & Html reporters
@@ -201,6 +205,10 @@ public class ExtentService implements Serializable {
 							&& "true".equals(String.valueOf(properties.get(INIT_HTML_KEY))))
 						initHtml(properties);
 
+					if (properties.containsKey(INIT_EXCEL_KEY)
+							&& "true".equals(String.valueOf(properties.get(INIT_EXCEL_KEY))))
+						initExcel(properties);
+
 					addSystemInfo(properties);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -224,6 +232,9 @@ public class ExtentService implements Serializable {
 
 			if ("true".equals(System.getProperty(INIT_HTML_KEY)))
 				initHtml(null);
+
+			if ("true".equals(System.getProperty(INIT_EXCEL_KEY)))
+				initExcel(null);
 
 			addSystemInfo(System.getProperties());
 		}
@@ -324,6 +335,12 @@ public class ExtentService implements Serializable {
 			filterReportStatus(html);
 			base64PngImageStyle();
 			attach(html, properties, CONFIG_HTML_KEY);
+		}
+
+		private static void initExcel(Properties properties) {
+			String out = getOutputPath(properties, OUT_EXCEL_KEY);
+			ExtentExcelCucumberReporter excel = new ExtentExcelCucumberReporter(out);
+			INSTANCE.attachReporter(excel);
 		}
 
 		private static void filterReportStatus(ReporterFilterable<?> reporter) {
