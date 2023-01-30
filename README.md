@@ -8,7 +8,7 @@ To **build** from source use ```install -Dmaven.test.failure.ignore=true``` or `
 <dependency>
     <groupId>tech.grasshopper</groupId>
     <artifactId>extentreports-cucumber7-adapter</artifactId>
-    <version>1.9.2</version>
+    <version>1.10.0</version>
 </dependency>
 ```
 
@@ -24,7 +24,7 @@ screenshot.rel.path=../
 **Extent PDF Reporter** *(NEW FEATURE)* - The PDF reporter summarizes the test run results in a **dashboard** and other sections with **feature, scenario and step details**.
 
 
-![sample](https://raw.githubusercontent.com/grasshopper7/extentreports-cucumber6-adapter/master/summary.png)
+![sample](https://raw.githubusercontent.com/grasshopper7/extentreports-cucumber7-adapter/master/summary.png)
 
 
 The PDF report needs to be enabled in the extent.properties file.

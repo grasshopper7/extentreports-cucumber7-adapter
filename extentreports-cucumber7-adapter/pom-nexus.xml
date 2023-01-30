@@ -65,7 +65,7 @@
 		<dependency>
 			<groupId>tech.grasshopper</groupId>
 			<artifactId>extent-excel-report</artifactId>
-			<version>1.0.0</version>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.cucumber</groupId>
