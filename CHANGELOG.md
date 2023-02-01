@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+# 1.10.1 (2023-2-1)
+
+* Changes in Excel reporter
+
 # 1.10.0 (2023-1-30)
 
 * Added Excel reporter
