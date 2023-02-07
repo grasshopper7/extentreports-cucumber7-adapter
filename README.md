@@ -27,7 +27,7 @@ screenshot.rel.path=../
 ![sample](https://raw.githubusercontent.com/grasshopper7/extentreports-cucumber7-adapter/master/exceldb.png)
 
 
-The Ecel report needs to be enabled in the extent.properties file.
+The Excel report needs to be enabled in the extent.properties file.
 ```
 extent.reporter.excel.start=true
 extent.reporter.excel.out=test output/ExcelReport/ExtentExcel.pdf
