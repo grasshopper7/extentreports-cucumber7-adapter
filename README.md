@@ -21,6 +21,19 @@ screenshot.dir=test-output/
 screenshot.rel.path=../
 ```
 
+**Extent Excel Reporter** *(NEW FEATURE)* - The Excel reporter summarizes the test run results in a **dashboard** and other worksheets with **feature, scenario, exception, tags, authors, devices details**. A complete sample report can be found [here](https://github.com/grasshopper7/cuke7-extent-adapter-report/tree/master/cuke7-extent-adapter-report/excelreport).
+
+
+![sample](https://raw.githubusercontent.com/grasshopper7/extentreports-cucumber7-adapter/master/exceldb.png)
+
+
+The Ecel report needs to be enabled in the extent.properties file.
+```
+extent.reporter.excel.start=true
+extent.reporter.excel.out=test output/ExcelReport/ExtentExcel.pdf
+```
+
+
 **Extent PDF Reporter** *(NEW FEATURE)* - The PDF reporter summarizes the test run results in a **dashboard** and other sections with **feature, scenario and step details**.
 
 
