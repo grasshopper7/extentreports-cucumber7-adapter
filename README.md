@@ -30,7 +30,7 @@ screenshot.rel.path=../
 The Excel report needs to be enabled in the extent.properties file.
 ```
 extent.reporter.excel.start=true
-extent.reporter.excel.out=test output/ExcelReport/ExtentExcel.pdf
+extent.reporter.excel.out=test output/ExcelReport/ExtentExcel.xlsx
 ```
 
 
