@@ -43,7 +43,7 @@ public class ExtentService implements Serializable {
 
 	public static synchronized void flush() {
 		System.out.println("BEFORE FLUSH - " + ExtentReportsLoader.CURRENT_RUNNER_COUNT.get());
-		if (ExtentReportsLoader.isRunnerLast() || !ExtentReportsLoader.RUNNER_COUNT_AVAILABLE) {
+		if (!ExtentReportsLoader.RUNNER_COUNT_AVAILABLE || ExtentReportsLoader.isRunnerLast()) {
 			System.out.println("FLUSH CALLED " + ExtentReportsLoader.CURRENT_RUNNER_COUNT.get());
 			ExtentReportsLoader.INSTANCE.flush();
 		}
