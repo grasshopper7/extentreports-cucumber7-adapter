@@ -5,7 +5,7 @@
 
 	<groupId>tech.grasshopper</groupId>
 	<artifactId>extentreports-cucumber7-adapter</artifactId>
-	<version>1.10.1</version>
+	<version>1.11.0</version>
 	<name>extentreports-cucumber7-adapter</name>
 	<url>https://ghchirp.online/3196</url>
 	<description>Cucumber-JVM 7 adapter for Extent Framework</description>
