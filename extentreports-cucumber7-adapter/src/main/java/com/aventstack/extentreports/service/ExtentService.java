@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import com.aventstack.extentreports.ExtentReports;
@@ -39,6 +40,15 @@ public class ExtentService implements Serializable {
 
 	public static synchronized ExtentReports getInstance() {
 		return ExtentReportsLoader.INSTANCE;
+	}
+
+	public static synchronized void flush() {
+		System.out.println("BEFORE FLUSH - " + ExtentReportsLoader.CURRENT_RUNNER_COUNT.get());
+		if (!ExtentReportsLoader.RUNNER_COUNT_AVAILABLE || ExtentReportsLoader.isRunnerLast()) {
+			System.out.println("FLUSH CALLED " + ExtentReportsLoader.CURRENT_RUNNER_COUNT.get());
+			ExtentReportsLoader.INSTANCE.flush();
+		}
+		System.out.println("AFTER FLUSH - " + ExtentReportsLoader.CURRENT_RUNNER_COUNT.get());
 	}
 
 	public static Object getProperty(String key) {
@@ -167,9 +177,15 @@ public class ExtentService implements Serializable {
 		private static final String DEFAULT_DEVICE_PREFIX = "@dev_";
 		private static final String DEFAULT_AUTHOR_PREFIX = "@aut_";
 
+		private static final String REPORTS_RUNNER_COUNT_KEY = "runner.count";
+		private static int DECLARED_RUNNER_COUNT;
+		private static boolean RUNNER_COUNT_AVAILABLE = true;
+		private static final AtomicInteger CURRENT_RUNNER_COUNT = new AtomicInteger(0);
+
 		static {
 			createViaProperties();
 			createViaSystem();
+			configureRunnerCount();
 			configureScreenshotProperties();
 			configureDeviceAndAuthorProperties();
 		}
@@ -237,6 +253,29 @@ public class ExtentService implements Serializable {
 				initExcel(null);
 
 			addSystemInfo(System.getProperties());
+		}
+
+		private static void configureRunnerCount() {
+			System.out.println("prop count " + getPropertyOrDefault(REPORTS_RUNNER_COUNT_KEY, 1));
+			if (getProperty(REPORTS_RUNNER_COUNT_KEY) == null) {
+				RUNNER_COUNT_AVAILABLE = false;
+				return;
+			}
+
+			try {
+				DECLARED_RUNNER_COUNT = Integer
+						.parseInt(String.valueOf(getPropertyOrDefault(REPORTS_RUNNER_COUNT_KEY, 1)));
+			} catch (Exception e) {
+				// Do nothing, default to 1
+				DECLARED_RUNNER_COUNT = 1;
+			}
+		}
+
+		private synchronized static boolean isRunnerLast() {
+			System.out.println("dec " + DECLARED_RUNNER_COUNT);
+			if (RUNNER_COUNT_AVAILABLE && CURRENT_RUNNER_COUNT.addAndGet(1) == DECLARED_RUNNER_COUNT)
+				return true;
+			return false;
 		}
 
 		private static String getBaseFolderName() {
