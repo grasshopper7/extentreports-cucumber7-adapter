@@ -43,12 +43,9 @@ public class ExtentService implements Serializable {
 	}
 
 	public static synchronized void flush() {
-		System.out.println("BEFORE FLUSH - " + ExtentReportsLoader.CURRENT_RUNNER_COUNT.get());
 		if (!ExtentReportsLoader.RUNNER_COUNT_AVAILABLE || ExtentReportsLoader.isRunnerLast()) {
-			System.out.println("FLUSH CALLED " + ExtentReportsLoader.CURRENT_RUNNER_COUNT.get());
 			ExtentReportsLoader.INSTANCE.flush();
 		}
-		System.out.println("AFTER FLUSH - " + ExtentReportsLoader.CURRENT_RUNNER_COUNT.get());
 	}
 
 	public static Object getProperty(String key) {
@@ -256,7 +253,6 @@ public class ExtentService implements Serializable {
 		}
 
 		private static void configureRunnerCount() {
-			System.out.println("prop count " + getPropertyOrDefault(REPORTS_RUNNER_COUNT_KEY, 1));
 			if (getProperty(REPORTS_RUNNER_COUNT_KEY) == null) {
 				RUNNER_COUNT_AVAILABLE = false;
 				return;
@@ -272,7 +268,6 @@ public class ExtentService implements Serializable {
 		}
 
 		private synchronized static boolean isRunnerLast() {
-			System.out.println("dec " + DECLARED_RUNNER_COUNT);
 			if (RUNNER_COUNT_AVAILABLE && CURRENT_RUNNER_COUNT.addAndGet(1) == DECLARED_RUNNER_COUNT)
 				return true;
 			return false;
