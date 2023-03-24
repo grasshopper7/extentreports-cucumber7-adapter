@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 # 1.11.0 (2023-3-22)
 
 * Changes in PDF reporter, author and device summary
+* Multiple runner count option
 
 # 1.10.1 (2023-2-1)
 
