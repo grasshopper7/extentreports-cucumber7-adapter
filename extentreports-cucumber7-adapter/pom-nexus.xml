@@ -31,7 +31,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<cucumber.version>7.2.3</cucumber.version>
 		<extent.version>5.0.9</extent.version>
-		<pdfreporter.version>2.9.1</pdfreporter.version>
+		<pdfreporter.version>2.10.0</pdfreporter.version>
 		<htmlreporter.version>1.0.1</htmlreporter.version>
 		<excelreporter.version>1.3.0</excelreporter.version>
 	</properties>
