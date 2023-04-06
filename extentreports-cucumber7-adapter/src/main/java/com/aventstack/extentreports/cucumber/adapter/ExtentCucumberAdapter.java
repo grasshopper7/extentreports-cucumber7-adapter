@@ -62,9 +62,9 @@ import io.cucumber.plugin.event.WriteEvent;
  */
 public class ExtentCucumberAdapter implements ConcurrentEventListener {
 
-	private static Map<String, ExtentTest> featureMap = new ConcurrentHashMap<>();
+	private static Map<Feature, ExtentTest> featureMap = new ConcurrentHashMap<>();
 	private static ThreadLocal<ExtentTest> featureTestThreadLocal = new InheritableThreadLocal<>();
-	private static Map<String, ExtentTest> scenarioOutlineMap = new ConcurrentHashMap<>();
+	private static Map<Scenario, ExtentTest> scenarioOutlineMap = new ConcurrentHashMap<>();
 	private static ThreadLocal<ExtentTest> scenarioOutlineThreadLocal = new InheritableThreadLocal<>();
 	private static ThreadLocal<ExtentTest> scenarioThreadLocal = new InheritableThreadLocal<>();
 	private static ThreadLocal<Boolean> isHookThreadLocal = new InheritableThreadLocal<>();
@@ -317,19 +317,20 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 		}
 
 		if (feature != null) {
-			if (featureMap.containsKey(feature.getName())) {
-				featureTestThreadLocal.set(featureMap.get(feature.getName()));
+			if (featureMap.containsKey(feature)) {
+				featureTestThreadLocal.set(featureMap.get(feature));
 				return;
 			}
-			if (featureTestThreadLocal.get() != null
-					&& featureTestThreadLocal.get().getModel().getName().equals(feature.getName())) {
-				return;
-			}
+			/*
+			 * if (featureTestThreadLocal.get() != null &&
+			 * featureTestThreadLocal.get().getModel().getName().equals(feature.getName()))
+			 * { return; }
+			 */
 			ExtentTest t = ExtentService.getInstance().createTest(
 					com.aventstack.extentreports.gherkin.model.Feature.class, feature.getName(),
 					feature.getDescription());
 			featureTestThreadLocal.set(t);
-			featureMap.put(feature.getName(), t);
+			featureMap.put(feature, t);
 
 			Set<String> tagList = feature.getTags().stream().map(tag -> tag.getName()).collect(Collectors.toSet());
 			featureTagsThreadLocal.set(tagList);
@@ -343,8 +344,11 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 
 		// if (scenarioDefinition.getKeyword().equals("Scenario Outline")) {
 		if (!scenarioDefinition.getExamples().isEmpty()) {
-			if (currentScenarioOutline.get() == null
-					|| !currentScenarioOutline.get().getName().equals(scenarioDefinition.getName())) {
+			if (currentScenarioOutline.get() == null || !scenarioOutlineMap.containsKey(scenarioDefinition)
+			/*
+			 * ||
+			 * !currentScenarioOutline.get().getName().equals(scenarioDefinition.getName())
+			 */) {
 				scenarioOutlineThreadLocal.set(null);
 				createScenarioOutline(scenarioDefinition);
 				currentScenarioOutline.set(scenarioDefinition);
@@ -362,8 +366,8 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 	}
 
 	private synchronized void createScenarioOutline(Scenario scenarioOutline) {
-		if (scenarioOutlineMap.containsKey(scenarioOutline.getName())) {
-			scenarioOutlineThreadLocal.set(scenarioOutlineMap.get(scenarioOutline.getName()));
+		if (scenarioOutlineMap.containsKey(scenarioOutline)) {
+			scenarioOutlineThreadLocal.set(scenarioOutlineMap.get(scenarioOutline));
 			return;
 		}
 		if (scenarioOutlineThreadLocal.get() == null) {
@@ -371,15 +375,8 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 					com.aventstack.extentreports.gherkin.model.ScenarioOutline.class, scenarioOutline.getName(),
 					scenarioOutline.getDescription());
 			scenarioOutlineThreadLocal.set(t);
-			scenarioOutlineMap.put(scenarioOutline.getName(), t);
+			scenarioOutlineMap.put(scenarioOutline, t);
 
-			/*
-			 * if (featureTagsThreadLocal.get() != null) {
-			 * featureTagsThreadLocal.get().forEach(x -> t.`gory(x)); }
-			 * 
-			 * scenarioOutline.getTags().stream().map(tag -> tag.getName()).forEach(c ->
-			 * t.assignCategory(c));
-			 */
 			Set<String> tagList = scenarioOutline.getTags().stream().map(tag -> tag.getName())
 					.collect(Collectors.toSet());
 			scenarioOutlineTagsThreadLocal.set(tagList);
