@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-# 1.11.0 (2023-3-31)
+# 1.12.0 (2023-3-31)
 
 * Change feature & scenario outline comparison logic to avoid misplaced scenarios
 
