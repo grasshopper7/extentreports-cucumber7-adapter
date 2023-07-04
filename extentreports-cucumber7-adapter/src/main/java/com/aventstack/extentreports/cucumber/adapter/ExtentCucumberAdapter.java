@@ -87,6 +87,7 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 		}
 	};
 
+	private static final String EMBEDDED_PREFIX = "embedded";
 	private static final AtomicInteger EMBEDDED_INT = new AtomicInteger(0);
 
 	private final TestSourcesModel testSources = new TestSourcesModel();
@@ -242,10 +243,8 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 						.createScreenCaptureFromBase64String(Base64.getEncoder().encodeToString(event.getData()))
 						.build());
 			} else {
-				StringBuilder fileName = new StringBuilder("embedded").append(EMBEDDED_INT.incrementAndGet())
-						.append(".").append(extension);
 				try {
-					URL url = toUrl(fileName.toString());
+					URL url = toUrl(String.format("%s%04d.%s", EMBEDDED_PREFIX, EMBEDDED_INT.incrementAndGet(), extension));
 					writeBytesToURL(event.getData(), url);
 					try {
 						File file = new File(url.toURI());
