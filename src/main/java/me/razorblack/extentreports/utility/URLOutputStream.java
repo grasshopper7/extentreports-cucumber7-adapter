@@ -1,4 +1,4 @@
-package com.aventstack.extentreports.cucumber.adapter;
+package me.razorblack.extentreports.utility;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,14 +23,14 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * writes with a {@link java.io.FileOutputStream}, if it's a http or https URL,
  * writes with a HTTP PUT (by default) or with the specified method.
  */
-class URLOutputStream extends OutputStream {
+public class URLOutputStream extends OutputStream {
 	private final URL url;
 	private final String method;
 	private final int expectedResponseCode;
 	private final OutputStream out;
 	private final HttpURLConnection urlConnection;
 
-	URLOutputStream(URL url) throws IOException, URISyntaxException {
+	public URLOutputStream(URL url) throws IOException, URISyntaxException {
 		this(url, "PUT", Collections.emptyMap(), 200);
 	}
 
@@ -40,7 +40,6 @@ class URLOutputStream extends OutputStream {
 		this.method = method;
 		this.expectedResponseCode = expectedResponseCode;
 		if (url.getProtocol().equals("file")) {
-			// File file = new File(url.getFile());
 			File file = new File(url.toURI().getPath());
 			ensureParentDirExists(file);
 			out = new FileOutputStream(file);

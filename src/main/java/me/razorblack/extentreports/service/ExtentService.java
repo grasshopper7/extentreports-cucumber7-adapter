@@ -1,4 +1,4 @@
-package com.aventstack.extentreports.service;
+package me.razorblack.extentreports.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +30,8 @@ import tech.grasshopper.pdf.extent.processor.MediaProcessor;
 import tech.grasshopper.pdf.section.details.executable.MediaCleanup.CleanupType;
 import tech.grasshopper.pdf.section.details.executable.MediaCleanup.MediaCleanupOption;
 import tech.grasshopper.reporter.ExtentExcelCucumberReporter;
+
+import static me.razorblack.extentreports.constants.BaseConstants.*;
 
 public class ExtentService implements Serializable {
 
@@ -62,7 +63,7 @@ public class ExtentService implements Serializable {
 		return ExtentReportsLoader.SCREENSHOT_FOLDER_NAME;
 	}
 
-	public static String getScreenshotReportRelatvePath() {
+	public static String getScreenshotReportRelativePath() {
 		return ExtentReportsLoader.SCREENSHOT_FOLDER_REPORT_RELATIVE_PATH;
 	}
 
@@ -96,76 +97,10 @@ public class ExtentService implements Serializable {
 		private static final ExtentReports INSTANCE = new ExtentReports();
 		private static final String[] DEFAULT_SETUP_PATH = new String[] { "extent.properties",
 				"com/aventstack/adapter/extent.properties" };
-
-		private static final String SYS_INFO_MARKER = "systeminfo.";
-		private static final String OUTPUT_PATH = "test-output/";
-		private static final String EXTENT_REPORTER = "extent.reporter";
-		private static final String START = "start";
-		private static final String CONFIG = "config";
-		private static final String OUT = "out";
-		private static final String VIEW_ORDER = "vieworder";
-		private static final String STATUS_FILTER = "statusfilter";
-		private static final String BASE64_IMAGE_SRC = "base64imagesrc";
-		private static final String ENABLE_DEVICE = "enable.device";
-		private static final String ENABLE_AUTHOR = "enable.author";
-		private static final String PREFIX_DEVICE = "prefix.device";
-		private static final String PREFIX_AUTHOR = "prefix.author";
-		private static final String DELIM = ".";
-
-		private static final String KLOV = "klov";
-		private static final String SPARK = "spark";
-		private static final String JSONF = "json";
-		private static final String PDF = "pdf";
-		private static final String HTML = "html";
-		private static final String EXCEL = "excel";
-
-		private static final String INIT_KLOV_KEY = EXTENT_REPORTER + DELIM + KLOV + DELIM + START;
-		private static final String INIT_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + START;
-		private static final String INIT_JSONF_KEY = EXTENT_REPORTER + DELIM + JSONF + DELIM + START;
-		private static final String INIT_PDF_KEY = EXTENT_REPORTER + DELIM + PDF + DELIM + START;
-		private static final String INIT_HTML_KEY = EXTENT_REPORTER + DELIM + HTML + DELIM + START;
-		private static final String INIT_EXCEL_KEY = EXTENT_REPORTER + DELIM + EXCEL + DELIM + START;
-
-		private static final String CONFIG_KLOV_KEY = EXTENT_REPORTER + DELIM + KLOV + DELIM + CONFIG;
-		private static final String CONFIG_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + CONFIG;
-		private static final String CONFIG_HTML_KEY = EXTENT_REPORTER + DELIM + HTML + DELIM + CONFIG;
-
-		private static final String OUT_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + OUT;
-		private static final String OUT_JSONF_KEY = EXTENT_REPORTER + DELIM + JSONF + DELIM + OUT;
-		private static final String OUT_PDF_KEY = EXTENT_REPORTER + DELIM + PDF + DELIM + OUT;
-		private static final String OUT_HTML_KEY = EXTENT_REPORTER + DELIM + HTML + DELIM + OUT;
-		private static final String OUT_EXCEL_KEY = EXTENT_REPORTER + DELIM + EXCEL + DELIM + OUT;
-
-		private static final String VIEW_ORDER_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + VIEW_ORDER;
-		// Use below for both Spark & Html reporters
-		private static final String BASE64_IMAGE_SRC_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM
-				+ BASE64_IMAGE_SRC;
-
-		private static final String DEVICE_ENABLE_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + ENABLE_DEVICE;
-		private static final String AUTHOR_ENABLE_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + ENABLE_AUTHOR;
-		private static final String DEVICE_PREFIX_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + PREFIX_DEVICE;
-		private static final String AUTHOR_PREFIX_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + PREFIX_AUTHOR;
-
 		private static boolean ENABLE_BASE64_IMAGE_SRC = false;
-
-		// Use below for both Spark & Pdf reporters
-		private static final String STATUS_FILTER_KEY = EXTENT_REPORTER + DELIM + STATUS_FILTER;
 
 		private static String SCREENSHOT_FOLDER_NAME;
 		private static String SCREENSHOT_FOLDER_REPORT_RELATIVE_PATH;
-		private static final String DEFAULT_SCREENSHOT_FOLDER_NAME = "test-output/";
-
-		private static final String SCREENSHOT_DIR_PROPERTY = "screenshot.dir";
-		private static final String SCREENSHOT_REL_PATH_PROPERTY = "screenshot.rel.path";
-
-		private static final String REPORTS_BASEFOLDER = "basefolder";
-		private static final String REPORTS_BASEFOLDER_NAME = REPORTS_BASEFOLDER + DELIM + "name";
-		private static final String REPORTS_BASEFOLDER_DATETIMEPATTERN = REPORTS_BASEFOLDER + DELIM + "datetimepattern";
-		private static final String REPORTS_BASEFOLDER_ENABLEDELIMITER = REPORTS_BASEFOLDER + DELIM
-				+ "enable.delimiter";
-		private static final String REPORTS_BASEFOLDER_DELIMITER = REPORTS_BASEFOLDER + DELIM + "delimiter";
-		private static final LocalDateTime FOLDER_CURRENT_TIMESTAMP = LocalDateTime.now();
-
 		private static boolean IS_DEVICE_ENABLED = false;
 		private static boolean IS_AUTHOR_ENABLED = false;
 		private static String DEVICE_NAME_PREFIX;
@@ -454,7 +389,7 @@ public class ExtentService implements Serializable {
 				return Status.INFO;
 			case "pass":
 				return Status.PASS;
-			case "Warning":
+			case "warning":
 				return Status.WARNING;
 			case "skip":
 				return Status.SKIP;

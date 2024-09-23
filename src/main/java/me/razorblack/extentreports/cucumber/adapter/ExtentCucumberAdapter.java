@@ -1,4 +1,4 @@
-package com.aventstack.extentreports.cucumber.adapter;
+package me.razorblack.extentreports.cucumber.adapter;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +27,7 @@ import com.aventstack.extentreports.gherkin.model.Asterisk;
 import com.aventstack.extentreports.gherkin.model.ScenarioOutline;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.model.Test;
-import com.aventstack.extentreports.service.ExtentService;
+import me.razorblack.extentreports.service.ExtentService;
 
 import io.cucumber.core.exception.CucumberException;
 import io.cucumber.messages.types.Feature;
@@ -53,11 +53,12 @@ import io.cucumber.plugin.event.TestSourceRead;
 import io.cucumber.plugin.event.TestStepFinished;
 import io.cucumber.plugin.event.TestStepStarted;
 import io.cucumber.plugin.event.WriteEvent;
+import me.razorblack.extentreports.utility.URLOutputStream;
 
 /**
  * A port of Cucumber-JVM (MIT licensed) HtmlFormatter for Extent Framework
  * Original source:
- * https://github.com/cucumber/cucumber-jvm/blob/master/core/src/main/java/cucumber/runtime/formatter/HTMLFormatter.java
+ * <a href="https://github.com/cucumber/cucumber-jvm/blob/master/core/src/main/java/cucumber/runtime/formatter/HTMLFormatter.java">...</a>
  *
  */
 public class ExtentCucumberAdapter implements ConcurrentEventListener {
@@ -95,48 +96,13 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 	private ThreadLocal<Scenario> currentScenarioOutline = new InheritableThreadLocal<>();
 	private ThreadLocal<Examples> currentExamples = new InheritableThreadLocal<>();
 
-	private EventHandler<TestSourceRead> testSourceReadHandler = new EventHandler<TestSourceRead>() {
-		@Override
-		public void receive(TestSourceRead event) {
-			handleTestSourceRead(event);
-		}
-	};
-	private EventHandler<TestCaseStarted> caseStartedHandler = new EventHandler<TestCaseStarted>() {
-		@Override
-		public void receive(TestCaseStarted event) {
-			handleTestCaseStarted(event);
-		}
-	};
-	private EventHandler<TestStepStarted> stepStartedHandler = new EventHandler<TestStepStarted>() {
-		@Override
-		public void receive(TestStepStarted event) {
-			handleTestStepStarted(event);
-		}
-	};
-	private EventHandler<TestStepFinished> stepFinishedHandler = new EventHandler<TestStepFinished>() {
-		@Override
-		public void receive(TestStepFinished event) {
-			handleTestStepFinished(event);
-		}
-	};
-	private EventHandler<EmbedEvent> embedEventhandler = new EventHandler<EmbedEvent>() {
-		@Override
-		public void receive(EmbedEvent event) {
-			handleEmbed(event);
-		}
-	};
-	private EventHandler<WriteEvent> writeEventhandler = new EventHandler<WriteEvent>() {
-		@Override
-		public void receive(WriteEvent event) {
-			handleWrite(event);
-		}
-	};
-	private EventHandler<TestRunFinished> runFinishedHandler = new EventHandler<TestRunFinished>() {
-		@Override
-		public void receive(TestRunFinished event) {
-			finishReport();
-		}
-	};
+	private EventHandler<TestSourceRead> testSourceReadHandler = event -> handleTestSourceRead(event);
+	private EventHandler<TestCaseStarted> caseStartedHandler = event -> handleTestCaseStarted(event);
+	private EventHandler<TestStepStarted> stepStartedHandler = event -> handleTestStepStarted(event);
+	private EventHandler<TestStepFinished> stepFinishedHandler = event -> handleTestStepFinished(event);
+	private EventHandler<EmbedEvent> eventEventHandler = event -> handleEmbed(event);
+	private EventHandler<WriteEvent> writeEventHandler = event -> handleWrite(event);
+	private EventHandler<TestRunFinished> runFinishedHandler = event -> finishReport();
 
 	public ExtentCucumberAdapter(String arg) {
 		ExtentService.getInstance();
@@ -148,8 +114,8 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 		publisher.registerHandlerFor(TestCaseStarted.class, caseStartedHandler);
 		publisher.registerHandlerFor(TestStepStarted.class, stepStartedHandler);
 		publisher.registerHandlerFor(TestStepFinished.class, stepFinishedHandler);
-		publisher.registerHandlerFor(EmbedEvent.class, embedEventhandler);
-		publisher.registerHandlerFor(WriteEvent.class, writeEventhandler);
+		publisher.registerHandlerFor(EmbedEvent.class, eventEventHandler);
+		publisher.registerHandlerFor(WriteEvent.class, writeEventHandler);
 		publisher.registerHandlerFor(TestRunFinished.class, runFinishedHandler);
 	}
 
@@ -252,7 +218,7 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 						stepTestThreadLocal.get().info(title,
 								MediaEntityBuilder
 										.createScreenCaptureFromPath(
-												ExtentService.getScreenshotReportRelatvePath() + file.getName())
+												ExtentService.getScreenshotReportRelativePath() + file.getName())
 										.build());
 					} catch (URISyntaxException e) {
 						e.printStackTrace();
@@ -430,8 +396,8 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 			updateCategoryAndDeviceAndAuthor(testCase.getTags());
 		}
 		if (featureTagsThreadLocal.get() != null) {
-			// featureTagsThreadLocal.get().forEach(x ->
-			// scenarioThreadLocal.get().assignCategory(x));
+			 featureTagsThreadLocal.get().forEach(x ->
+			 scenarioThreadLocal.get().assignCategory(x));
 			updateCategoryAndDeviceAndAuthor(featureTagsThreadLocal.get());
 		}
 
@@ -448,7 +414,7 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 			if (ExtentService.isDeviceEnabled() && isValidDeviceTag(t)) {
 
 				scenarioThreadLocal.get().assignDevice(t.substring(ExtentService.getDevicePrefix().length()));
-			} else if (ExtentService.isAuthorEnabled() && isValidAuthoTag(t)) {
+			} else if (ExtentService.isAuthorEnabled() && isValidAuthorTag(t)) {
 
 				scenarioThreadLocal.get().assignAuthor(t.substring(ExtentService.getAuthorPrefix().length()));
 			} else
@@ -462,7 +428,7 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 		return false;
 	}
 
-	private boolean isValidAuthoTag(String tag) {
+	private boolean isValidAuthorTag(String tag) {
 		if (tag.startsWith(ExtentService.getAuthorPrefix()) && tag.length() > ExtentService.getAuthorPrefix().length())
 			return true;
 		return false;
@@ -510,8 +476,6 @@ public class ExtentCucumberAdapter implements ConcurrentEventListener {
 		return data;
 	}
 
-	// the below additions are from PR #33
-	// https://github.com/extent-framework/extentreports-cucumber4-adapter/pull/33
 	public static synchronized void addTestStepLog(String message) {
 		stepTestThreadLocal.get().info(message);
 	}
